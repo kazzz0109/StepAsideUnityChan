@@ -17,8 +17,8 @@ public class ItemGenerator : MonoBehaviour {
 	//Unityちゃんのオブジェクト
 	private GameObject unitychan;
 
-	//item出現位置
-	private int itemPos = -160;
+	//次のitem出現位置
+	private int nextItemPos = -160;
 	//itemとの距離
 	private int itemRange = 50;
 	//item出現間隔
@@ -33,7 +33,7 @@ public class ItemGenerator : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(unitychan.transform.position.z + itemRange > itemPos && goalPos > itemPos){
+		if(unitychan.transform.position.z + itemRange > nextItemPos && goalPos > nextItemPos){
 
 			//どのアイテムを出すのかをランダムに設定
 			int num = Random.Range (0, 10);
@@ -41,7 +41,7 @@ public class ItemGenerator : MonoBehaviour {
 				//コーンをx軸方向に一直線に生成
 				for (float j = -1; j <= 1; j += 0.4f) {
 					GameObject cone = Instantiate (conePrefab) as GameObject;
-					cone.transform.position = new Vector3 (4 * j, cone.transform.position.y,itemPos);
+					cone.transform.position = new Vector3 (4 * j, cone.transform.position.y,nextItemPos);
 				}
 			} else {
 
@@ -55,15 +55,15 @@ public class ItemGenerator : MonoBehaviour {
 					if (1 <= item && item <= 6) {
 						//コインを生成
 						GameObject coin = Instantiate (coinPrefab) as GameObject;
-						coin.transform.position = new Vector3 (posRange * j, coin.transform.position.y,itemPos + offsetZ);
+						coin.transform.position = new Vector3 (posRange * j, coin.transform.position.y,nextItemPos + offsetZ);
 					} else if (7 <= item && item <= 9) {
 						//車を生成
 						GameObject car = Instantiate (carPrefab) as GameObject;
-						car.transform.position = new Vector3 (posRange * j, car.transform.position.y,itemPos + offsetZ);
+						car.transform.position = new Vector3 (posRange * j, car.transform.position.y,nextItemPos + offsetZ);
 					}
 				}
 			}
-			itemPos += itemInterval;
+			nextItemPos += itemInterval;
 		}
 	}
 }
