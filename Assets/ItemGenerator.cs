@@ -9,23 +9,39 @@ public class ItemGenerator : MonoBehaviour {
 	//cornPrefabを入れる
 	public GameObject conePrefab;
 	//スタート地点
-	private int startPos = -160;
+	//private int startPos = -160;
 	//ゴール地点
 	private int goalPos = 120;
 	//アイテムを出すx方向の範囲
 	private float posRange = 3.4f;
+	//Unityちゃんのオブジェクト
+	private GameObject unitychan;
+
+	//item出現位置
+	private int itemPos = -160;
+	//itemとの距離
+	private int itemRange = 50;
+	//item出現間隔
+	private int itemInterval = 15;
+
 
 	// Use this for initialization
 	void Start () {
-		//一定の距離ごとにアイテムを生成
-		for (int i = startPos; i < goalPos; i+=15) {
+		//Unityちゃんのオブジェクトを取得
+		this.unitychan = GameObject.Find ("unitychan");
+			}
+
+	// Update is called once per frame
+	void Update () {
+		if(unitychan.transform.position.z + itemRange > itemPos && goalPos > itemPos){
+
 			//どのアイテムを出すのかをランダムに設定
 			int num = Random.Range (0, 10);
 			if (num <= 1) {
 				//コーンをx軸方向に一直線に生成
 				for (float j = -1; j <= 1; j += 0.4f) {
 					GameObject cone = Instantiate (conePrefab) as GameObject;
-					cone.transform.position = new Vector3 (4 * j, cone.transform.position.y, i);
+					cone.transform.position = new Vector3 (4 * j, cone.transform.position.y,itemPos);
 				}
 			} else {
 
@@ -39,19 +55,15 @@ public class ItemGenerator : MonoBehaviour {
 					if (1 <= item && item <= 6) {
 						//コインを生成
 						GameObject coin = Instantiate (coinPrefab) as GameObject;
-						coin.transform.position = new Vector3 (posRange * j, coin.transform.position.y, i + offsetZ);
+						coin.transform.position = new Vector3 (posRange * j, coin.transform.position.y,itemPos + offsetZ);
 					} else if (7 <= item && item <= 9) {
 						//車を生成
 						GameObject car = Instantiate (carPrefab) as GameObject;
-						car.transform.position = new Vector3 (posRange * j, car.transform.position.y, i + offsetZ);
+						car.transform.position = new Vector3 (posRange * j, car.transform.position.y,itemPos + offsetZ);
 					}
 				}
 			}
+			itemPos += itemInterval;
 		}
-	}
-
-	// Update is called once per frame
-	void Update () {
-
 	}
 }
